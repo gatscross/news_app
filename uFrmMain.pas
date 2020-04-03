@@ -5,7 +5,10 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
-  ALFmxLayouts, ALFmxObjects, ALFmxTabControl, FMX.Objects, FMX.FontGlyphs.Android;
+  ALFmxLayouts, ALFmxObjects, ALFmxTabControl, FMX.Objects, FMX.FontGlyphs.Android,
+  uStrUtils, ALFmxEdit, MobilePermissions.Model.Signature,
+  MobilePermissions.Model.Dangerous, MobilePermissions.Model.Standard,
+  MobilePermissions.Component, DW.OSDevice, FMX.Controls.Presentation;
 
 type
   TFrmMain = class(TForm)
@@ -21,6 +24,11 @@ type
     ALRectangle4: TALRectangle;
     Text1: TText;
     ALRectangle5: TALRectangle;
+    ALEdit1: TALEdit;
+    ALEdit2: TALEdit;
+    MobilePermissions1: TMobilePermissions;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -33,5 +41,17 @@ var
 implementation
 
 {$R *.fmx}
+
+procedure TFrmMain.FormCreate(Sender: TObject);
+begin
+  MobilePermissions1.Dangerous.ReadPhoneState := True;
+  MobilePermissions1.Apply;
+end;
+
+procedure TFrmMain.FormShow(Sender: TObject);
+begin
+  ALEdit1.Text := TOSDevice.GetUniqueDeviceID;
+  ALEdit2.Text := TOSDevice.GetDeviceName;
+end;
 
 end.
